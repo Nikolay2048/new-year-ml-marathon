@@ -1,0 +1,201 @@
+dish_id,dish_name,category,calories,spicy,allergen_tags,tags
+1,Оливье,salad,480,0,egg|mayo|peas,fiber|savory|vegetarian
+2,Винегрет,salad,304,0,,fiber|low_cal|pickled|savory|sour|vegan|vegetarian
+3,Салат «Мимоза»,salad,267,0,egg|mayo,fiber|low_cal|savory|vegetarian
+4,Греческий салат,salad,389,0,,fiber|fresh|savory|vegan|vegetarian
+5,Цезарь,salad,269,0,egg|mayo,fiber|low_cal|savory|vegetarian
+6,Салат с крабовыми палочками,salad,266,0,seafood,fiber|low_cal|savory|seafood_tag
+7,Салат из свёклы,salad,372,0,,fiber|savory|vegan|vegetarian
+8,Салат с курицей и ананасом,salad,253,0,,chicken|fiber|low_cal|meat|savory
+9,Салат с фасолью,salad,354,0,,fiber|savory|vegan|vegetarian
+10,Салат с тунцом,salad,295,0,fish,fiber|fish_tag|low_cal|savory
+11,Салат с кальмарами,salad,327,0,seafood,fiber|savory|seafood_tag
+12,Капустный салат,salad,512,0,,fiber|fresh|savory|vegan|vegetarian
+13,Салат с огурцом и йогуртом,salad,465,0,dairy,creamy|fiber|fresh|savory|vegetarian
+14,Салат «Шуба»,salad,474,0,egg|mayo,fiber|savory|vegetarian
+15,Табуле,salad,270,0,,fiber|fresh|low_cal|savory|vegan|vegetarian
+16,Коул-слоу,salad,247,0,,fiber|fresh|low_cal|savory|vegan|vegetarian
+17,Оливье (классический),salad,390,0,egg|mayo|peas,fiber|savory|vegetarian
+18,Винегрет (домашний),salad,252,0,,fiber|low_cal|pickled|savory|sour|vegan|vegetarian
+19,Салат «Мимоза» (праздничный),salad,316,0,egg|mayo,fiber|low_cal|savory|vegetarian
+20,Греческий салат с грибами,salad,386,0,,fiber|fresh|savory|vegan|vegetarian
+21,Цезарь с сыром,salad,400,0,dairy|egg|mayo,fiber|savory|vegetarian
+22,Салат с крабовыми палочками с чесноком,salad,344,0,seafood,fiber|savory|seafood_tag
+23,Салат из свёклы острый,salad,380,1,,fiber|savory|spicy|vegan|vegetarian
+24,Салат с курицей и ананасом легкий,salad,264,0,,chicken|fiber|low_cal|meat|savory
+25,Салат с фасолью на гриле,salad,410,0,,fiber|grilled|savory|vegan|vegetarian
+26,Салат с тунцом (классический),salad,390,0,fish,fiber|fish_tag|savory
+27,Салат с кальмарами (домашний),salad,458,0,seafood,fiber|savory|seafood_tag
+28,Капустный салат (праздничный),salad,315,0,,fiber|fresh|low_cal|savory|vegan|vegetarian
+29,Салат с огурцом и йогуртом с грибами,salad,322,0,dairy,creamy|fiber|fresh|savory|vegetarian
+30,Салат «Шуба» с сыром,salad,432,0,dairy|egg|mayo,fiber|savory|vegetarian
+31,Борщ,soup,318,0,,low_cal|savory|vegan|vegetarian
+32,Солянка,soup,204,0,,low_cal|pickled|savory|sour|vegan|vegetarian
+33,Щи,soup,251,0,,low_cal|savory|vegan|vegetarian
+34,Куриный суп,soup,251,0,,low_cal|savory|vegan|vegetarian
+35,Грибной крем-суп,soup,327,0,,creamy|savory|vegan|vegetarian
+36,Сырный суп,soup,169,0,dairy,creamy|low_cal|savory|vegetarian
+37,Уха,soup,207,0,fish,fish_tag|low_cal|savory
+38,Рассольник,soup,339,0,,pickled|savory|sour|vegan|vegetarian
+39,Томатный суп,soup,261,0,,low_cal|savory|vegan|vegetarian
+40,Суп-пюре из тыквы,soup,300,0,,creamy|low_cal|potato|savory|vegan|vegetarian
+41,Лагман,soup,380,1,,savory|spicy|vegan|vegetarian
+42,Минестроне,soup,343,0,,savory|vegan|vegetarian
+43,Харчо,soup,379,1,,savory|spicy|vegan|vegetarian
+44,Борщ (классический),soup,375,0,,savory|vegan|vegetarian
+45,Солянка (домашний),soup,252,0,,low_cal|pickled|savory|sour|vegan|vegetarian
+46,Щи (праздничный),soup,334,0,,savory|vegan|vegetarian
+47,Куриный суп с грибами,soup,277,0,,low_cal|savory|vegan|vegetarian
+48,Грибной крем-суп с сыром,soup,174,0,dairy,creamy|low_cal|savory|vegetarian
+49,Сырный суп с чесноком,soup,427,0,dairy,creamy|savory|vegetarian
+50,Уха острый,soup,169,1,fish,fish_tag|low_cal|savory|spicy
+51,Рассольник легкий,soup,178,0,,low_cal|pickled|savory|sour|vegan|vegetarian
+52,Томатный суп на гриле,soup,381,0,,grilled|savory|vegan|vegetarian
+53,Суп-пюре из тыквы (классический),soup,204,0,,creamy|low_cal|potato|savory|vegan|vegetarian
+54,Лагман (домашний),soup,208,1,,low_cal|savory|spicy|vegan|vegetarian
+55,Минестроне (праздничный),soup,410,0,,savory|vegan|vegetarian
+56,Запечённая курица,main,806,0,,baked|chicken|high_protein|meat|savory
+57,Запечённая индейка,main,540,0,,baked|high_protein|meat|savory|turkey
+58,Буженина,main,547,0,,high_protein|meat|pork|savory
+59,Котлеты домашние,main,888,0,,fried|high_protein|meat|savory
+60,Плов,main,670,0,,high_protein|rice|savory
+61,Лазанья,main,531,0,gluten,baked|high_protein|pasta|savory
+62,Гуляш,main,823,0,,high_protein|savory
+63,Бефстроганов,main,589,0,,beef|high_protein|savory
+64,Рагу овощное,main,772,0,,fresh|high_protein|savory
+65,Рыба запечённая,main,912,0,fish,baked|fish_tag|high_protein|savory
+66,Шашлык,main,814,0,,grilled|high_protein|meat|savory|smoky
+67,Тефтели,main,670,0,,high_protein|meat|savory
+68,Говядина по-французски,main,699,0,,beef|high_protein|meat|savory
+69,Стейк,main,754,0,,beef|high_protein|meat|savory
+70,Куриные наггетсы,main,735,0,,chicken|fried|high_protein|savory
+71,Пельмени,main,453,0,,boiled|high_protein|savory
+72,Фрикадельки в соусе,main,681,0,,crispy|fried|high_protein|meat|potato|savory
+73,Рыба на гриле,main,666,0,fish,fish_tag|grilled|high_protein|savory
+74,Овощное карри,main,589,1,,fresh|high_protein|savory|spicy
+75,Запечённая курица (классический),main,560,0,,baked|chicken|high_protein|meat|savory
+76,Запечённая индейка (домашний),main,441,0,,baked|high_protein|meat|savory|turkey
+77,Буженина (праздничный),main,846,0,,high_protein|meat|pork|savory
+78,Котлеты домашние с грибами,main,831,0,,fried|high_protein|meat|savory
+79,Плов с сыром,main,515,0,dairy,high_protein|rice|savory
+80,Лазанья с чесноком,main,788,0,gluten,baked|high_protein|pasta|savory
+81,Гуляш острый,main,772,1,,high_protein|savory|spicy
+82,Бефстроганов легкий,main,783,0,,beef|high_protein|savory
+83,Рагу овощное на гриле,main,717,0,,fresh|grilled|high_protein|savory
+84,Рыба запечённая (классический),main,820,0,fish,baked|fish_tag|high_protein|savory
+85,Шашлык (домашний),main,600,0,,grilled|high_protein|meat|savory|smoky
+86,Тефтели (праздничный),main,649,0,,high_protein|meat|savory
+87,Говядина по-французски с грибами,main,571,0,,beef|high_protein|meat|savory
+88,Стейк с сыром,main,745,0,dairy,beef|high_protein|meat|savory
+89,Куриные наггетсы с чесноком,main,483,0,,chicken|fried|high_protein|savory
+90,Пельмени острый,main,433,1,,boiled|high_protein|savory|spicy
+91,Фрикадельки в соусе легкий,main,841,0,,crispy|fried|high_protein|meat|potato|savory
+92,Рыба на гриле на гриле,main,761,0,fish,fish_tag|grilled|high_protein|savory
+93,Овощное карри (классический),main,787,1,,fresh|high_protein|savory|spicy
+94,Запечённая курица (домашний),main,717,0,,baked|chicken|high_protein|meat|savory
+95,Запечённая индейка (праздничный),main,825,0,,baked|high_protein|meat|savory|turkey
+96,Буженина с грибами,main,620,0,,high_protein|meat|pork|savory
+97,Котлеты домашние с сыром,main,635,0,dairy,fried|high_protein|meat|savory
+98,Плов с чесноком,main,662,0,,high_protein|rice|savory
+99,Лазанья острый,main,650,1,gluten,baked|high_protein|pasta|savory|spicy
+100,Гуляш легкий,main,821,0,,high_protein|savory
+101,Картофельное пюре,side,381,0,,creamy|fiber|potato|savory|vegan|vegetarian
+102,Гречка,side,521,0,,boiled|fiber|savory|vegan|vegetarian
+103,Рис отварной,side,629,0,,boiled|fiber|rice|savory|vegan|vegetarian
+104,Макароны,side,416,0,gluten,fiber|pasta|savory|vegan|vegetarian
+105,Запечённые овощи,side,457,0,,baked|fiber|fresh|savory|vegan|vegetarian
+106,Картофель по-деревенски,side,512,0,,fiber|potato|savory|vegan|vegetarian
+107,Овощи на пару,side,637,0,,fiber|fresh|savory|vegan|vegetarian
+108,Тушёная капуста,side,262,0,,fiber|fresh|low_cal|savory|vegan|vegetarian
+109,Булгур,side,587,0,,fiber|savory|vegan|vegetarian
+110,Картофель фри,side,363,0,,crispy|fiber|fried|potato|savory|vegan|vegetarian
+111,Паста с соусом,side,490,0,gluten,fiber|pasta|savory|vegan|vegetarian
+112,Овощи на гриле,side,622,0,,fiber|fresh|grilled|savory|vegan|vegetarian
+113,Картофельное пюре (классический),side,473,0,,creamy|fiber|potato|savory|vegan|vegetarian
+114,Гречка (домашний),side,471,0,,boiled|fiber|savory|vegan|vegetarian
+115,Рис отварной (праздничный),side,591,0,,boiled|fiber|rice|savory|vegan|vegetarian
+116,Макароны с грибами,side,329,0,gluten,fiber|pasta|savory|vegan|vegetarian
+117,Запечённые овощи с сыром,side,340,0,dairy,baked|fiber|fresh|savory|vegetarian
+118,Картофель по-деревенски с чесноком,side,411,0,,fiber|potato|savory|vegan|vegetarian
+119,Овощи на пару острый,side,466,1,,fiber|fresh|savory|spicy|vegan|vegetarian
+120,Тушёная капуста легкий,side,509,0,,fiber|fresh|savory|vegan|vegetarian
+121,Булгур на гриле,side,276,0,,fiber|grilled|low_cal|savory|vegan|vegetarian
+122,Картофель фри (классический),side,628,0,,crispy|fiber|fried|potato|savory|vegan|vegetarian
+123,Паста с соусом (домашний),side,397,0,gluten,fiber|pasta|savory|vegan|vegetarian
+124,Овощи на гриле (праздничный),side,467,0,,fiber|fresh|grilled|savory|vegan|vegetarian
+125,Картофельное пюре с грибами,side,281,0,,creamy|fiber|low_cal|potato|savory|vegan|vegetarian
+126,Наполеон,dessert,353,0,,baked|sweet
+127,Медовик,dessert,361,0,,baked|sweet
+128,Шарлотка,dessert,659,0,,baked|sweet
+129,Тирамису,dessert,498,0,,baked|sweet
+130,Пирожное картошка,dessert,320,0,,low_cal|sweet
+131,Творожная запеканка,dessert,526,0,,baked|sweet
+132,Печенье овсяное,dessert,656,0,gluten,boiled|sweet
+133,Шоколадный мусс,dessert,679,0,chocolate,sweet
+134,Панна-котта,dessert,705,0,dairy,creamy|sweet
+135,Блины с вареньем,dessert,554,0,gluten,bread|sweet
+136,Сырники,dessert,535,0,dairy,creamy|sweet
+137,Маффины,dessert,688,0,,baked|sweet
+138,Фруктовый салат,dessert,313,0,,fresh|low_cal|sweet
+139,Желе ягодное,dessert,575,0,,sweet
+140,Чизкейк,dessert,350,0,dairy,baked|creamy|sweet
+141,Пончики,dessert,413,0,,fried|sweet
+142,Наполеон (классический),dessert,633,0,,baked|sweet
+143,Медовик (домашний),dessert,316,0,,baked|low_cal|sweet
+144,Шарлотка (праздничный),dessert,262,0,,baked|low_cal|sweet
+145,Тирамису с грибами,dessert,674,0,,baked|sweet
+146,Пирожное картошка с сыром,dessert,295,0,dairy,low_cal|sweet
+147,Творожная запеканка с чесноком,dessert,501,0,,baked|sweet
+148,Печенье овсяное острый,dessert,280,1,gluten,boiled|low_cal|spicy|sweet
+149,Шоколадный мусс легкий,dessert,303,0,chocolate,low_cal|sweet
+150,Панна-котта на гриле,dessert,631,0,dairy,creamy|grilled|sweet
+151,Блины с вареньем (классический),dessert,384,0,gluten,bread|sweet
+152,Сырники (домашний),dessert,276,0,dairy,creamy|low_cal|sweet
+153,Маффины (праздничный),dessert,586,0,,baked|sweet
+154,Фруктовый салат с грибами,dessert,668,0,,fresh|sweet
+155,Желе ягодное с сыром,dessert,306,0,dairy,low_cal|sweet
+156,Бутерброды,snack,473,0,gluten,bread|savory
+157,Канапе,snack,581,0,,savory
+158,Чипсы,snack,415,0,,crispy|savory
+159,Сухарики,snack,431,0,fish,crispy|fish_tag|savory
+160,Ореховая смесь,snack,642,0,nuts,savory
+161,Сырная тарелка,snack,552,0,dairy,creamy|savory
+162,Овощная нарезка,snack,466,0,,fresh|savory
+163,Гренки,snack,426,0,,crispy|fried|savory
+164,Пицца-кусочки,snack,488,0,gluten,bread|savory
+165,Сосиски,snack,359,0,,meat|pork|savory
+166,Фрукты,snack,580,0,,fresh|savory
+167,Йогурт,snack,495,0,dairy,creamy|savory
+168,Круассаны,snack,205,0,gluten,bread|crispy|low_cal|savory
+169,Хумус с хлебцами,snack,619,0,gluten,bread|savory
+170,Бутерброды (классический),snack,609,0,gluten,bread|savory
+171,Канапе (домашний),snack,532,0,,savory
+172,Чипсы (праздничный),snack,393,0,,crispy|savory
+173,Сухарики с грибами,snack,651,0,fish,crispy|fish_tag|savory
+174,Ореховая смесь с сыром,snack,549,0,dairy|nuts,savory
+175,Сырная тарелка с чесноком,snack,595,0,dairy,creamy|savory
+176,Кофе,drink,273,0,,coffee|low_cal
+177,Чай,drink,146,0,,low_cal|tea
+178,Компот,drink,209,0,,compote|low_cal
+179,Морс,drink,18,0,,compote|low_cal|sour
+180,Сок апельсиновый,drink,152,0,citrus,juice|low_cal
+181,Лимонад,drink,13,0,,low_cal|soda|sour
+182,Газировка,drink,342,0,,soda
+183,Какао,drink,356,0,chocolate,coffee
+184,Молочный коктейль,drink,39,0,dairy,creamy|low_cal
+185,Минералка,drink,52,0,,low_cal
+186,Овсянка,breakfast,251,0,gluten,boiled|high_protein|low_cal|savory|vegan|vegetarian
+187,Гранола,breakfast,291,0,,high_protein|low_cal|savory|vegan|vegetarian
+188,Яичница,breakfast,301,0,egg,high_protein|low_cal|savory|vegetarian
+189,Омлет,breakfast,442,0,egg,high_protein|savory|vegetarian
+190,Тосты,breakfast,566,0,gluten,bread|high_protein|savory|vegan|vegetarian
+191,Панкейки,breakfast,396,0,gluten,bread|high_protein|savory|vegan|vegetarian
+192,Сэндвич с сыром,breakfast,534,0,dairy|gluten,bread|high_protein|savory|vegetarian
+193,Каша рисовая,breakfast,653,0,,boiled|high_protein|savory|vegan|vegetarian
+194,Творог с ягодами,breakfast,614,0,dairy,high_protein|savory|vegetarian
+195,Йогурт с мюсли,breakfast,410,0,dairy,creamy|high_protein|savory|vegetarian
+196,Блины,breakfast,571,0,gluten,bread|high_protein|savory|vegan|vegetarian
+197,Сырники (завтрак),breakfast,471,0,dairy,creamy|high_protein|savory|vegetarian
+198,Авокадо-тост,breakfast,245,0,gluten,bread|fresh|high_protein|low_cal|savory|vegan|vegetarian
+199,Овсянка (классический),breakfast,605,0,gluten,boiled|high_protein|savory|vegan|vegetarian
+200,Гранола (домашний),breakfast,494,0,,high_protein|savory|vegan|vegetarian

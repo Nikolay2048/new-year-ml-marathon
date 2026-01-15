@@ -10,42 +10,75 @@ from catboost import CatBoostClassifier, Pool
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedKFold
 
-from .features import TARGET_COL, ID_COL, add_features, get_feature_columns
+from .features import ID_COL, TARGET_COL, add_features, get_feature_columns
+from .target_encoding import add_oof_target_encoding
 from .utils import Paths, ensure_dir, pretty_params, seed_everything
 
 
-def build_model_params(seed: int) -> Dict:
-    return {
+def build_model_params(seed: int, use_gpu: bool, device: str) -> Dict:
+    """
+    GPU-safe params (no rsm, no GPU-problematic ctr limits).
+    Хорошая стартовая конфигурация под табличку.
+    """
+    params = {
         "loss_function": "Logloss",
         "eval_metric": "AUC",
         "iterations": 5000,
         "learning_rate": 0.03,
         "depth": 8,
         "l2_leaf_reg": 6.0,
-        "random_seed": seed,
+        "random_strength": 1.0,
+
+        "bootstrap_type": "Bayesian",
+        "bagging_temperature": 1.0,
+
         "od_type": "Iter",
         "od_wait": 200,
-        "bootstrap_type": "Bayesian",
-        "bagging_temperature": 1.0,  # <-- вместо subsample
-        "random_strength": 1.0,
+        "random_seed": seed,
         "verbose": 200,
         "allow_writing_files": False,
     }
 
+    if use_gpu:
+        params["task_type"] = "GPU"
+        params["devices"] = device  # e.g. "0" or "0:1"
+    else:
+        params["task_type"] = "CPU"
 
-def prepare_data(train_df: pd.DataFrame, test_df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame, List[str], List[str]]:
-    # Feature engineering
+    return params
+
+
+def prepare_data(
+    train_df: pd.DataFrame,
+    test_df: pd.DataFrame,
+    folds: int,
+    seed: int,
+    te_smoothing: float,
+) -> Tuple[pd.DataFrame, pd.DataFrame, List[str], List[str]]:
+    # FE
     train_df = add_features(train_df)
     test_df = add_features(test_df)
 
-    # Identify columns
+    # base columns
     features, cat_cols, _num_cols = get_feature_columns(train_df)
 
-    # Fill categorical NaNs (CatBoost expects strings for cat features)
+    # fill categorical NaNs as string token
     for c in cat_cols:
         train_df[c] = train_df[c].astype("object").fillna("NA")
         test_df[c] = test_df[c].astype("object").fillna("NA")
 
+    # OOF Target Encoding (powerful)
+    train_df, test_df, te_feats = add_oof_target_encoding(
+        train_df=train_df,
+        test_df=test_df,
+        cat_cols=cat_cols,
+        target_col=TARGET_COL,
+        n_splits=folds,
+        seed=seed,
+        smoothing=te_smoothing,
+    )
+
+    features = features + te_feats
     return train_df, test_df, features, cat_cols
 
 
@@ -55,22 +88,29 @@ def cv_train_predict(
     features: List[str],
     cat_cols: List[str],
     seed: int,
-    n_splits: int,
+    folds: int,
+    use_gpu: bool,
+    device: str,
+    outputs_dir: str,
 ) -> Tuple[np.ndarray, np.ndarray, float, List[float]]:
     y = train_df[TARGET_COL].values.astype(int)
     X = train_df[features]
     X_test = test_df[features]
 
-    cat_idxs = [features.index(c) for c in cat_cols]  # indices for Pool
+    # categorical indices for Pool: only original categorical columns should be cat-features
+    cat_idxs = [features.index(c) for c in cat_cols if c in features]
 
-    skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=seed)
+    skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=seed)
 
     oof = np.zeros(len(train_df), dtype=float)
     test_pred = np.zeros(len(test_df), dtype=float)
     fold_scores: List[float] = []
 
-    params = build_model_params(seed)
+    params = build_model_params(seed=seed, use_gpu=use_gpu, device=device)
     print("\nCatBoost params:\n" + pretty_params(params) + "\n")
+
+    # store per-fold test preds (for debugging/ensembling variations)
+    fold_test_preds = []
 
     for fold, (tr_idx, va_idx) in enumerate(skf.split(X, y), start=1):
         X_tr, X_va = X.iloc[tr_idx], X.iloc[va_idx]
@@ -88,41 +128,26 @@ def cv_train_predict(
         fold_scores.append(fold_auc)
 
         test_pool = Pool(X_test, cat_features=cat_idxs)
-        test_pred += model.predict_proba(test_pool)[:, 1] / n_splits
+        fold_test = model.predict_proba(test_pool)[:, 1]
+        fold_test_preds.append(fold_test)
+        test_pred += fold_test / folds
 
-        print(f"[Fold {fold}] AUC = {fold_auc:.6f} | best_iter={model.get_best_iteration()}")
+        model_path = os.path.join(outputs_dir, f"model_fold{fold}.cbm")
+        model.save_model(model_path)
+
+        print(f"[Fold {fold}] AUC = {fold_auc:.6f} | best_iter={model.get_best_iteration()} | saved={model_path}")
 
     oof_auc = roc_auc_score(y, oof)
-    print(f"\nOOF AUC = {oof_auc:.6f}")
+    print(f"\nFINAL OFFLINE METRIC (OOF ROC-AUC): {oof_auc:.6f}")
     print(f"Fold AUCs: {[round(s, 6) for s in fold_scores]}")
     print(f"Mean AUC: {np.mean(fold_scores):.6f} ± {np.std(fold_scores):.6f}\n")
 
+    # save fold preds
+    fold_preds_path = os.path.join(outputs_dir, "fold_test_preds.npy")
+    np.save(fold_preds_path, np.vstack(fold_test_preds))
+    print(f"Saved fold test preds: {fold_preds_path}")
+
     return oof, test_pred, oof_auc, fold_scores
-
-
-def train_full_model(
-    train_df: pd.DataFrame,
-    test_df: pd.DataFrame,
-    features: List[str],
-    cat_cols: List[str],
-    seed: int,
-) -> Tuple[CatBoostClassifier, np.ndarray]:
-    y = train_df[TARGET_COL].values.astype(int)
-    X = train_df[features]
-    X_test = test_df[features]
-
-    cat_idxs = [features.index(c) for c in cat_cols]
-
-    params = build_model_params(seed)
-    # На full-train можно чуть больше итераций, но оставим те же: od отработает.
-    model = CatBoostClassifier(**params)
-
-    train_pool = Pool(X, y, cat_features=cat_idxs)
-    model.fit(train_pool)
-
-    test_pool = Pool(X_test, cat_features=cat_idxs)
-    test_pred = model.predict_proba(test_pool)[:, 1]
-    return model, test_pred
 
 
 def main() -> None:
@@ -131,8 +156,14 @@ def main() -> None:
     parser.add_argument("--test_path", type=str, default="data/test.csv")
     parser.add_argument("--sample_submission_path", type=str, default="data/sample_submission.csv")
     parser.add_argument("--outputs_dir", type=str, default="outputs")
+
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--folds", type=int, default=5)
+
+    parser.add_argument("--use_gpu", action="store_true", help="Use CatBoost GPU")
+    parser.add_argument("--device", type=str, default="0", help='GPU device string, e.g. "0" or "0:1"')
+
+    parser.add_argument("--te_smoothing", type=float, default=20.0, help="Target encoding smoothing strength")
     args = parser.parse_args()
 
     seed_everything(args.seed)
@@ -150,60 +181,52 @@ def main() -> None:
     test_df = pd.read_csv(paths.test_path)
     sample_sub = pd.read_csv(paths.sample_submission_path)
 
-    # Basic checks
     assert ID_COL in train_df.columns and ID_COL in test_df.columns, "apartment_id missing"
     assert TARGET_COL in train_df.columns, "target missing in train"
-    assert ID_COL in sample_sub.columns, "sample submission must contain apartment_id"
+    assert ID_COL in sample_sub.columns, "sample_submission must contain apartment_id"
 
     print(f"Train shape: {train_df.shape}")
     print(f"Test shape:  {test_df.shape}")
 
-    train_df, test_df, features, cat_cols = prepare_data(train_df, test_df)
+    train_df, test_df, features, cat_cols = prepare_data(
+        train_df=train_df,
+        test_df=test_df,
+        folds=args.folds,
+        seed=args.seed,
+        te_smoothing=args.te_smoothing,
+    )
 
     print(f"\nFeatures count: {len(features)}")
     print(f"Categorical: {cat_cols}")
 
-    # CV training (for confidence)
     oof, test_pred_cv, oof_auc, fold_scores = cv_train_predict(
         train_df=train_df,
         test_df=test_df,
         features=features,
         cat_cols=cat_cols,
         seed=args.seed,
-        n_splits=args.folds,
+        folds=args.folds,
+        use_gpu=args.use_gpu,
+        device=args.device,
+        outputs_dir=paths.outputs_dir,
     )
 
-    # Save OOF for later analysis
+    # save OOF
     oof_path = os.path.join(paths.outputs_dir, "oof.csv")
-    pd.DataFrame({ID_COL: train_df[ID_COL].values, "oof_pred": oof, TARGET_COL: train_df[TARGET_COL].values}).to_csv(
-        oof_path, index=False
-    )
+    pd.DataFrame(
+        {ID_COL: train_df[ID_COL].values, "oof_pred": oof, TARGET_COL: train_df[TARGET_COL].values}
+    ).to_csv(oof_path, index=False)
     print(f"Saved OOF: {oof_path}")
 
-    # Train final model on full data
-    print("\nTraining full model on all train data...")
-    model, test_pred = train_full_model(
-        train_df=train_df,
-        test_df=test_df,
-        features=features,
-        cat_cols=cat_cols,
-        seed=args.seed,
-    )
-
-    model_path = os.path.join(paths.outputs_dir, "model.cbm")
-    model.save_model(model_path)
-    print(f"Saved model: {model_path}")
-
-    # Build submission
+    # Build submission from CV ensemble (best practice)
     submission = pd.DataFrame(
         {
             ID_COL: test_df[ID_COL].values,
-            TARGET_COL: np.clip(test_pred, 0.0, 1.0),
+            TARGET_COL: np.clip(test_pred_cv, 0.0, 1.0),
         }
     )
 
-    # Optional: keep original ordering as in sample_submission (if needed)
-    # If sample_submission has exact same apartment_id set, we can reorder:
+    # reorder by sample_submission if needed
     if set(sample_sub[ID_COL].astype(str)) == set(submission[ID_COL].astype(str)):
         submission = sample_sub[[ID_COL]].merge(submission, on=ID_COL, how="left")
 
@@ -211,9 +234,12 @@ def main() -> None:
     submission.to_csv(sub_path, index=False)
     print(f"Saved submission: {sub_path}")
 
-    # Print quick sanity stats
     print("\nSubmission preview:")
     print(submission.head())
+
     print("\nPred stats:")
     print(pd.Series(submission[TARGET_COL]).describe())
 
+
+if __name__ == "__main__":
+    main()
