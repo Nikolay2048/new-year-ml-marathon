@@ -467,7 +467,7 @@ def main():
     parser.add_argument("--lr", type=float, default=2e-3)
     parser.add_argument("--val_ratio", type=float, default=0.05)
 
-    parser.add_argument("--ensemble", type=int, default=8, help="кол-во сидов в ансамбле (2-5)")
+    parser.add_argument("--ensemble", type=int, default=3, help="кол-во сидов в ансамбле (2-5)")
     parser.add_argument("--chunksize_stats", type=int, default=50000)
 
     args = parser.parse_args()
